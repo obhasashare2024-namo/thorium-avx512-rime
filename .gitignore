@@ -1,0 +1,7 @@
+# Precompiled release binaries are distributed via GitHub Releases, not git.
+# (GitHub rejects single files >100MB; thorium packages total ~588MB.)
+packages/
+
+# Editor / OS noise
+*.swp
+.DS_Store
