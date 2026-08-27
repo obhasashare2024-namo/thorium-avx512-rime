@@ -1,0 +1,14 @@
+diff --git a/ui/webui/BUILD.gn b/ui/webui/BUILD.gn
+index 38910fd023..7becd26209 100644
+--- a/ui/webui/BUILD.gn
++++ b/ui/webui/BUILD.gn
+@@ -38,7 +38,8 @@ if (use_blink) {
+       "//ui/webui/resources/js/metrics_reporter:mojo_bindings",
+     ]
+ 
+-    if ((!is_android && !is_ios) || is_desktop_android) {
++    if ((!is_android && !is_ios) || is_desktop_android ||
++        enable_desktop_android_extensions) {
+       public_deps +=
+           [ "//ui/webui/resources/cr_components/color_change_listener:mojom" ]
+       sources += [
