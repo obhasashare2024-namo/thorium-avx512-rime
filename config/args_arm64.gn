@@ -1,0 +1,14 @@
+target_os = "android"
+target_cpu = "arm64"
+v8_target_cpu = "arm64"
+arm_version = 8
+arm_arch = "armv8-a"
+is_official_build = true
+is_debug = false
+symbol_level = 0
+v8_symbol_level = 0
+blink_symbol_level = 0
+use_thin_lto = false
+treat_warnings_as_errors = false
+is_component_build = false
+v8_enable_builtins_optimization = false

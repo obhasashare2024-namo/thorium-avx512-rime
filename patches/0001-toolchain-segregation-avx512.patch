@@ -1,0 +1,66 @@
+diff --git a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
+index 3351d93dfd..5deb77d59b 100644
+--- a/build/config/compiler/BUILD.gn
++++ b/build/config/compiler/BUILD.gn
+@@ -1349,6 +1349,13 @@ config("compiler_cpu_abi") {
+   asmflags = cflags
+ }
+ 
++config("host_arch_override") {
++  if (current_cpu == "x64") {
++    cflags = [ "-march=x86-64" ]
++    ldflags = [ "-march=x86-64" ]
++  }
++}
++
+ # This provides options to tweak code generation that are necessary
+ # for particular Chromium code or for working around particular
+ # compiler bugs (or the combination of the two).
+diff --git a/build/config/compiler_cpu_abi.gn b/build/config/compiler_cpu_abi.gn
+index ae62bab587..fa14ffb620 100644
+--- a/build/config/compiler_cpu_abi.gn
++++ b/build/config/compiler_cpu_abi.gn
+@@ -22,10 +22,22 @@ if (target_os == "chromeos") {
+   }
+ }
+ 
++declare_args() {
++  # Setting this value selects a specific x86-64 microarchitecture target (e.g. sandybridge, haswell, skylake-avx512).
++  x86_arch = ""
++}
++
+ cpu_abi_cflags = []
+ cpu_abi_ldflags = []
+ cpu_abi_defines = []
+ 
++if (current_cpu == "x64" && x86_arch != "" &&
++    (current_toolchain == "//build/toolchain/linux:clang_x64_target" ||
++     current_toolchain == "//build/toolchain/linux:clang_x64_target_with_system_allocator")) {
++  cpu_abi_cflags += [ "-march=" + x86_arch ]
++  cpu_abi_ldflags += [ "-march=" + x86_arch ]
++}
++
+ if (is_chromeos_device && is_chromeos) {
+   if (current_cpu == "x64") {
+     cros_target = "--target=x86_64-cros-linux-gnu"
+diff --git a/build/toolchain/linux/BUILD.gn b/build/toolchain/linux/BUILD.gn
+index a6e20a05c5..93212557b8 100644
+--- a/build/toolchain/linux/BUILD.gn
++++ b/build/toolchain/linux/BUILD.gn
+@@ -114,6 +114,16 @@ clang_toolchain("clang_x64") {
+   }
+ }
+ 
++clang_toolchain("clang_x64_target") {
++  # Output linker map files for binary size analysis.
++  enable_linker_map = true
++
++  toolchain_args = {
++    current_cpu = "x64"
++    current_os = "linux"
++  }
++}
++
+ template("clang_v8_toolchain") {
+   clang_toolchain(target_name) {
+     toolchain_args = {
