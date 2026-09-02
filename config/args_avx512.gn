@@ -1,36 +1,39 @@
+# Thorium M152 (152.0.7977.55) AVX-512 Production Build GN Arguments
 is_official_build = true
 is_debug = false
 symbol_level = 0
 blink_symbol_level = 0
 v8_symbol_level = 0
-target_cpu = "x64"
-chrome_pgo_phase = 0
-clang_use_default_sample_profile = false
-use_clang_modules = false
+is_component_build = false
+
+# Toolchain & Architecture
+use_lld = true
+use_gold = false
+is_clang = true
+clang_use_chrome_plugins = false
+use_custom_libcxx = false
 use_thin_lto = true
 thin_lto_enable_optimizations = true
+
+# CPU Target: Ice Lake / Skylake-X / Zen 4-5 AVX-512
+target_cpu = "x64"
+custom_toolchain = "//build/toolchain/linux/unbundle:default"
+host_toolchain = "//build/toolchain/linux/unbundle:default"
+
+# Multimedia & Codecs
 proprietary_codecs = true
 ffmpeg_branding = "Chrome"
-enable_hevc_parser_and_hw_decoder = true
 enable_platform_hevc = true
+enable_hevc_parser_and_hw_decoder = true
+enable_platform_ac3_eac3_audio = true
 enable_platform_dolby_vision = true
 enable_platform_dts_audio = true
-enable_platform_ac3_eac3_audio = true
-enable_mse_mpeg2ts_stream_parser = true
-media_use_ffmpeg = true
-media_use_libvpx = true
-enable_hls_demuxer = true
+enable_widevine = true
+bundle_widevine_cdm = true
+
+# Linux UI & Input Methods
 use_ozone = true
+ozone_platform_wayland = true
 ozone_platform_x11 = true
-ozone_platform_wayland = false
-use_vaapi = true
-treat_warnings_as_errors = false
-dcheck_always_on = false
-v8_enable_fast_torque = true
-v8_enable_maglev = true
-v8_enable_turbofan = true
-use_v8_context_snapshot = false
-v8_use_external_startup_data = true
-v8_snapshot_toolchain = "//build/toolchain/linux:clang_x64"
-custom_toolchain = "//build/toolchain/linux:clang_x64_target"
-x86_arch = "skylake-avx512"
+use_gtk = true
+gtk_version = 3

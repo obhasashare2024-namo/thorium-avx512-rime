@@ -1,0 +1,26 @@
+From: Thorium AVX-512 Build Pipeline <builder@thorium.local>
+Subject: [PATCH] third_party/libaom: provide weak fallback for aom_highbd_calc_variance_stat_avx2
+
+Resolves missing HighBitDepth symbol in variance.c during final link stage
+when building AVX-512 optimized AV1 video decoder.
+
+--- a/third_party/libaom/source/libaom/aom_dsp/variance.c
++++ b/third_party/libaom/source/libaom/aom_dsp/variance.c
+@@ -21,6 +21,18 @@
+ #include "aom_ports/mem.h"
+ #include "config/aom_dsp_rtcd.h"
+ 
++#if !CONFIG_AV1_HIGHBITDEPTH
++unsigned int aom_highbd_calc_variance_stat_avx2(const uint8_t *a, int a_stride,
++                                                const uint8_t *b, int b_stride,
++                                                int w, int h, unsigned int *sse,
++                                                int *sum) __attribute__((weak));
++unsigned int aom_highbd_calc_variance_stat_avx2(const uint8_t *a, int a_stride,
++                                                const uint8_t *b, int b_stride,
++                                                int w, int h, unsigned int *sse,
++                                                int *sum) {
++  *sse = 0;
++  *sum = 0;
++  return 0;
++}
++#endif

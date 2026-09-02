@@ -1,0 +1,27 @@
+# Maintainer: obhasashare2024-namo
+pkgname=thorium-browser-avx512-rime-bin
+pkgver=152.0.7977.55
+pkgrel=1
+pkgdesc="Thorium Browser M152 (AVX-512 & RIME Edition) - Optimized for Ice Lake, Tiger Lake, Skylake-X and Zen 4/5 with Wayland Ozone & Fcitx5-RIME"
+arch=('x86_64')
+url="https://github.com/obhasashare2024-namo/thorium-avx512-rime"
+license=('BSD-3-Clause')
+depends=('gtk3' 'nss' 'alsa-lib' 'libxss' 'libvpx' 'libevent' 'harfbuzz' 'icu' 'libjpeg-turbo' 'zlib' 'minizip' 'flac' 'snappy' 'libpng' 'libwebp' 'libxml2' 'libxslt' 'pciutils' 'libva' 'fcitx5')
+optdepends=(
+    'fcitx5-rime: High performance Chinese RIME input method'
+    'libva-mesa-driver: AMD/Intel VA-API hardware acceleration'
+    'nvidia-utils: NVIDIA hardware video decode acceleration'
+)
+provides=('thorium-browser' 'chromium')
+conflicts=('thorium-browser-bin')
+source=("thorium-m152-avx512-${pkgver}.tar.gz")
+sha256sums=('SKIP')
+
+package() {
+    install -d "${pkgdir}/opt/thorium-m152"
+    cp -a "${srcdir}"/* "${pkgdir}/opt/thorium-m152/"
+    
+    # Symlinks & Desktop Entry
+    install -d "${pkgdir}/usr/bin" "${pkgdir}/usr/share/applications" "${pkgdir}/usr/share/icons/hicolor/128x128/apps"
+    ln -sf "/opt/thorium-m152/thorium-m152-bin" "${pkgdir}/usr/bin/thorium-m152"
+}

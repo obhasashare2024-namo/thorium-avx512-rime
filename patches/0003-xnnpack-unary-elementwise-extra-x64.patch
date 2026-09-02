@@ -1,0 +1,30 @@
+From: Thorium AVX-512 Build Pipeline <builder@thorium.local>
+Subject: [PATCH] third_party/xnnpack: add unary_elementwise_extra_x64 source set
+
+This patch adds the missing unary_elementwise_extra_x64 source set in
+third_party/xnnpack/BUILD.gn to compile 6 AVX/F16C microkernels
+(f16-f32-vcvt, f32-f16-vcvt, f32-qs8-vcvt) required for modern x86_64
+SIMD ML inference.
+
+--- a/third_party/xnnpack/BUILD.gn
++++ b/third_party/xnnpack/BUILD.gn
+@@ -1030,6 +1030,22 @@ if (is_x64) {
+     configs += [ "//build/config/compiler:no_chromium_code", ":xnnpack_config" ]
+   }
++
++  source_set("unary_elementwise_extra_x64") {
++    sources = [
++      "src/src/f16-f32-vcvt/gen/f16-f32-vcvt-f16c-x8.c",
++      "src/src/f16-f32-vcvt/gen/f16-f32-vcvt-f16c-x16.c",
++      "src/src/f32-f16-vcvt/gen/f32-f16-vcvt-f16c-x8.c",
++      "src/src/f32-f16-vcvt/gen/f32-f16-vcvt-f16c-x16.c",
++      "src/src/f32-qs8-vcvt/gen/f32-qs8-vcvt-avx-x8.c",
++      "src/src/f32-qs8-vcvt/gen/f32-qs8-vcvt-avx-x16.c",
++    ]
++    configs -= [ "//build/config/compiler:chromium_code" ]
++    configs += [
++      "//build/config/compiler:no_chromium_code",
++      ":xnnpack_config",
++    ]
++  }
+ }
