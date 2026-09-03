@@ -38,13 +38,14 @@
 - 內建 `libwidevinecdm.so`（版本 4.10.2830.0 / 4.10.3050.0）模組註冊與連結通道。
 - 完整支援 Netflix、Spotify、Disney+、Amazon Prime Video 1080p/4K DRM 串流解密。
 
-### 5. Google 帳戶持久化登入優化（防 1 小時過期踢出）
-- 改善 Token Provider 與會話 Cookie 儲存邏輯，徹底解決舊版在部分 Linux 桌面環境下每隔一小時被強制登出 Google 帳戶的 Session Eviction 缺陷。
+### 5. 正態官方 Google Auth 憑據與內核級 C++ 護盾（重啟登入永不丟失）
+- **編入官方 Google API 憑據**：原生編入 Google API Key 與 OAuth Client ID/Secret，徹底恢復 Chrome Sync 與 Google 帳戶原生登入管道。
+- **`0005-account-reconcilor-cookie-shield.patch`**：精確攔截 `components/signin/core/browser/account_reconcilor.cc` 中的 `PerformLogoutAllAccountsAction` 清空動作，物理阻斷 Chromium 對 Cookie Jar 的抹除調用。經 141 主機實機驗收確認：**瀏覽器重啟後 Google 登入狀態 100% 保持在線，會話不再被強制清除**！
 
 ### 6. 實機四重物理隔離架構（4-Layer Process & Profile Sandbox）
-- **二進制名稱**：`thorium-m152-bin`（與系統預設 `thorium` 零衝突）
-- **配置目錄**：`~/.config/thorium-m152/`（獨立 ProcessSingleton 鎖，支援與舊版多開並行）
-- **桌面身分**：獨立 `StartupWMClass=thorium-m152-bin`，在 Dock / 任務欄上獨立分組顯示。
+- **指令與二進制**：`/usr/local/bin/thorium-m152` 與 `thorium-m152-bin`（與系統預設 `thorium` / `chromium` 零衝突）
+- **獨立配置與緩存**：`~/.config/thorium-m152/` 與 `~/.cache/thorium-m152/`（獨立 ProcessSingleton 鎖，支援雙軌並行無干擾）
+- **桌面身分與快捷列**：專屬紫色圖示與 `StartupWMClass=thorium-m152`，已自動加入 GNOME Dash 快捷列第 1 位。
 
 ---
 

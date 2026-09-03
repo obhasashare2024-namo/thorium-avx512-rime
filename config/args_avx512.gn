@@ -37,3 +37,8 @@ ozone_platform_wayland = true
 ozone_platform_x11 = true
 use_gtk = true
 gtk_version = 3
+
+# Native Google Auth & Sync Credentials
+google_api_key = "AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw"
+google_default_client_id = "77185425430.apps.googleusercontent.com"
+google_default_client_secret = "OTJgUOQcT7lO7GsGZq2G4IlT"

@@ -1,0 +1,18 @@
+diff --git a/components/signin/core/browser/account_reconcilor.cc b/components/signin/core/browser/account_reconcilor.cc
+index f9f58270b5..a5155b9ddc 100644
+--- a/components/signin/core/browser/account_reconcilor.cc
++++ b/components/signin/core/browser/account_reconcilor.cc
+@@ -354,11 +354,8 @@ void AccountReconcilor::PerformSetCookiesAction(
+ 
+ void AccountReconcilor::PerformLogoutAllAccountsAction() {
+   reconcile_is_noop_ = false;
+-  VLOG(1) << "AccountReconcilor::PerformLogoutAllAccountsAction";
+-  identity_manager_->GetAccountsCookieMutator()->LogOutAllAccounts(
+-      delegate_->GetGaiaApiSource(/*is_cookie_upgrade=*/false),
+-      base::BindOnce(&AccountReconcilor::OnLogOutFromCookieCompleted,
+-                     weak_factory_.GetWeakPtr()));
++  VLOG(1) << "AccountReconcilor::PerformLogoutAllAccountsAction (shielded: preserving cookies)";
++  OnLogOutFromCookieCompleted(GoogleServiceAuthError::AuthErrorNone());
+ }
+ 
+ void AccountReconcilor::StartReconcile(Trigger trigger) {

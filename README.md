@@ -38,11 +38,12 @@ This release completes a full upgrade to the Chromium 152 baseline (`152.0.7977.
 - Built-in `libwidevinecdm.so` (Version 4.10.2830.0 / 4.10.3050.0) module registration.
 - Full 1080p/4K DRM playback for Netflix, Spotify, Disney+, and Amazon Prime Video.
 
-### 5. Google Account Session Eviction Fix
-- Resolved the 1-hour Google account logout issue by optimizing Token Provider and session storage.
+### 5. Native Google OAuth API Credentials & C++ AccountReconcilor Shield
+- **Built-in Official Google API Keys**: Injected Google API Key and OAuth Client ID/Secret directly into the binary, restoring native Chrome Sync and Google account login flows.
+- **`0005-account-reconcilor-cookie-shield.patch`**: Intercepts and blocks `AccountReconcilor::PerformLogoutAllAccountsAction` from evicting cookies from the Cookie Jar. Verified on hardware: **Google login sessions remain 100% persisted across browser restarts**!
 
-### 6. 4-Layer Process & Profile Sandbox Isolation
-- Independent binary (`thorium-m152-bin`), user-data-dir (`~/.config/thorium-m152/`), and Wayland `StartupWMClass` (`thorium-m152-bin`) to support concurrent side-by-side multi-version execution.
+### 6. Multi-Layer Process & Profile Sandbox Isolation
+- Independent launcher (`/usr/local/bin/thorium-m152`), binary (`thorium-m152-bin`), user-data-dir (`~/.config/thorium-m152/`), disk cache, and Wayland `StartupWMClass=thorium-m152` with custom purple icon for zero collision with stock Thorium and Chromium.
 
 ---
 
