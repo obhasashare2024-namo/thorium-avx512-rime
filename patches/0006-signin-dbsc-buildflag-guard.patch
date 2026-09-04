@@ -1,0 +1,32 @@
+diff --git a/chrome/browser/signin/header_modification_delegate_impl.cc b/chrome/browser/signin/header_modification_delegate_impl.cc
+index cf7c90288a..44ce04a9db 100644
+--- a/chrome/browser/signin/header_modification_delegate_impl.cc
++++ b/chrome/browser/signin/header_modification_delegate_impl.cc
+@@ -50,8 +50,11 @@
+ #include "chrome/browser/signin/bound_session_credentials/bound_session_registration_fetcher_impl.h"
+ #include "chrome/browser/signin/bound_session_credentials/unexportable_key_service_factory.h"
+ #include "net/base/features.h"
++#include "net/net_buildflags.h"
++#if BUILDFLAG(ENABLE_DEVICE_BOUND_SESSIONS)
+ #include "net/device_bound_sessions/registration_fetcher_param.h"
+ #endif
++#endif
+ 
+ namespace signin {
+ 
+@@ -88,6 +91,7 @@ void ProcessBoundSessionResponseHeaders(
+   // If an equivalent standard DBSC session is going to be triggered by the same
+   // response, ignore the session registration.
+   base::flat_set<GURL> ignored_registration_endpoints;
++#if BUILDFLAG(ENABLE_DEVICE_BOUND_SESSIONS)
+   if (base::FeatureList::IsEnabled(net::features::kDeviceBoundSessions)) {
+     // Per the spec, a response with a WebSocket scheme should be
+     // rewritten to HTTP(S). See https://crbug.com/379241469.
+@@ -110,6 +114,7 @@ void ProcessBoundSessionResponseHeaders(
+       }
+     }
+   }
++#endif
+ 
+   for (auto& param : BoundSessionRegistrationFetcherParam::CreateFromHeaders(
+            response_adapter->GetUrl(), headers)) {

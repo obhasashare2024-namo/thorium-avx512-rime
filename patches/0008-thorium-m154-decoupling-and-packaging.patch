@@ -1,0 +1,220 @@
+diff --git a/chrome/BUILD.gn b/chrome/BUILD.gn
+index cd8c1e8c4c..5074dd4334 100644
+--- a/chrome/BUILD.gn
++++ b/chrome/BUILD.gn
+@@ -150,9 +150,11 @@ if (!is_android && !is_mac) {
+   }
+ 
+   if (is_win) {
+-    _chrome_output_name = "initialexe/chrome"
+-  } else {
++    _chrome_output_name = "initialexe/thorium"
++  } else if (is_chromeos) {
+     _chrome_output_name = "chrome"
++  } else {
++    _chrome_output_name = "thorium"
+   }
+ 
+   executable("chrome_initial") {
+@@ -1897,7 +1899,7 @@ if (is_linux || is_chromeos) {
+       ]
+     }
+     extract_symbols("chrome_symbols") {
+-      binary = "$root_out_dir/chrome"
++      binary = "$root_out_dir/thorium"
+ 
+       if (current_cpu == "x86") {
+         # GYP used "ia32" so keep that naming for back-compat.
+diff --git a/chrome/common/chrome_constants.cc b/chrome/common/chrome_constants.cc
+index 904dc62c7b..e3e7697bcc 100644
+--- a/chrome/common/chrome_constants.cc
++++ b/chrome/common/chrome_constants.cc
+@@ -1,4 +1,4 @@
+-// Copyright 2026 The Chromium Authors and Alex313031
++// Copyright 2012 The Chromium Authors and Alex313031
+ // Use of this source code is governed by a BSD-style license that can be
+ // found in the LICENSE file.
+ 
+@@ -22,13 +22,6 @@ const char kChromeVersion[] = CHROME_VERSION_STRING;
+ //     kHelperProcessExecutableName
+ //     kBrowserProcessExecutablePath
+ //     kHelperProcessExecutablePath
+-//
+-// In one condition, our tests will be built using the Chrome branding
+-// though we want to actually execute a Chromium branded application.
+-// This happens for the reference build on Mac.  To support that case,
+-// we also include a Chromium version of each of the four constants and
+-// in the UITest class we support switching to that version when told to
+-// do so.
+ 
+ #if BUILDFLAG(IS_WIN)
+ const base::FilePath::CharType kBrowserProcessExecutableName[] =
+@@ -87,101 +80,6 @@ const base::FilePath::CharType kFrameworkExecutableName[] =
+ const char kMacHelperSuffixAlerts[] = " (Alerts)";
+ #endif  // BUILDFLAG(IS_MAC)
+ 
+-#if BUILDFLAG(IS_WIN)
+-const base::FilePath::CharType kBrowserResourcesDll[] = FPL("chrome.dll");
+-const base::FilePath::CharType kElfDll[] = FPL("chrome_elf.dll");
+-const base::FilePath::CharType kStatusTrayWindowClass[] =
+-    FPL("Chrome_StatusTrayWindow");
+-#endif  // BUILDFLAG(IS_WIN)
+-
+-const char kInitialProfile[] = "Default";
+-const char kMultiProfileDirPrefix[] = "Profile ";
+-const base::FilePath::CharType kGuestProfileDir[] = FPL("Guest Profile");
+-const base::FilePath::CharType kSystemProfileDir[] = FPL("System Profile");
+-
+-// filenames
+-const base::FilePath::CharType kAccountPreferencesFilename[] =
+-    FPL("AccountPreferences");
+-const base::FilePath::CharType kCacheDirname[] = FPL("Cache");
+-const base::FilePath::CharType kCookieFilename[] = FPL("Cookies");
+-const base::FilePath::CharType kCRLSetFilename[] =
+-    FPL("Certificate Revocation Lists");
+-const base::FilePath::CharType kCustomDictionaryFileName[] =
+-    FPL("Custom Dictionary.txt");
+-const base::FilePath::CharType kDeviceBoundSessionsFilename[] =
+-    FPL("Device Bound Sessions");
+-const base::FilePath::CharType kDownloadServiceStorageDirname[] =
+-    FPL("Download Service");
+-const base::FilePath::CharType kExtensionActivityLogFilename[] =
+-    FPL("Extension Activity");
+-const base::FilePath::CharType kExtensionsCookieFilename[] =
+-    FPL("Extension Cookies");
+-const base::FilePath::CharType kFeatureEngagementTrackerStorageDirname[] =
+-    FPL("Feature Engagement Tracker");
+-const base::FilePath::CharType kFirstRunSentinel[] = FPL("First Run");
+-const base::FilePath::CharType kGCMStoreDirname[] = FPL("GCM Store");
+-const base::FilePath::CharType kLocalStateFilename[] = FPL("Local State");
+-const base::FilePath::CharType kMediaCacheDirname[] = FPL("Media Cache");
+-const base::FilePath::CharType kNetworkPersistentStateFilename[] =
+-    FPL("Network Persistent State");
+-const base::FilePath::CharType kNetworkDataDirname[] = FPL("Network");
+-const base::FilePath::CharType kNotificationSchedulerStorageDirname[] =
+-    FPL("Notification Scheduler");
+-const base::FilePath::CharType kOfflinePageArchivesDirname[] =
+-    FPL("Offline Pages/archives");
+-const base::FilePath::CharType kOfflinePageMetadataDirname[] =
+-    FPL("Offline Pages/metadata");
+-const base::FilePath::CharType kOfflinePagePrefetchStoreDirname[] =
+-    FPL("Offline Pages/prefech_store");
+-const base::FilePath::CharType kOfflinePageRequestQueueDirname[] =
+-    FPL("Offline Pages/request_queue");
+-const base::FilePath::CharType kPreferencesFilename[] = FPL("Preferences");
+-const base::FilePath::CharType kPreviewsOptOutDBFilename[] =
+-    FPL("previews_opt_out.db");
+-const base::FilePath::CharType kQueryTileStorageDirname[] = FPL("Query Tiles");
+-const base::FilePath::CharType kReadmeFilename[] = FPL("README");
+-const base::FilePath::CharType kSCTAuditingPendingReportsFileName[] =
+-    FPL("SCT Auditing Pending Reports");
+-const base::FilePath::CharType kSecurePreferencesFilename[] =
+-    FPL("Secure Preferences");
+-const base::FilePath::CharType kServiceStateFileName[] = FPL("Service State");
+-const base::FilePath::CharType kSegmentationPlatformStorageDirName[] =
+-    FPL("Segmentation Platform");
+-const base::FilePath::CharType kSingletonCookieFilename[] =
+-    FPL("SingletonCookie");
+-const base::FilePath::CharType kSingletonLockFilename[] = FPL("SingletonLock");
+-const base::FilePath::CharType kSingletonSocketFilename[] =
+-    FPL("SingletonSocket");
+-const base::FilePath::CharType kThemePackFilename[] = FPL("Cached Theme.pak");
+-const base::FilePath::CharType kTransportSecurityPersisterFilename[] =
+-    FPL("TransportSecurity");
+-const base::FilePath::CharType kTrustTokenFilename[] = FPL("Trust Tokens");
+-const base::FilePath::CharType kVideoTutorialsStorageDirname[] =
+-    FPL("Video Tutorials");
+-const base::FilePath::CharType kWebAppDirname[] = FPL("Web Applications");
+-// Only use if the ENABLE_REPORTING build flag is true
+-const base::FilePath::CharType kReportingAndNelStoreFilename[] =
+-    FPL("Reporting and NEL");
+-
+-#if BUILDFLAG(IS_WIN)
+-const base::FilePath::CharType kJumpListIconDirname[] = FPL("JumpListIcons");
+-#endif
+-
+-// directory names
+-#if BUILDFLAG(IS_WIN)
+-const wchar_t kUserDataDirname[] = L"User Data";
+-#elif BUILDFLAG(IS_ANDROID)
+-const base::FilePath::CharType kOTRTempStateDirname[] = FPL("OTRTempState");
+-#endif
+-
+-const float kMaxShareOfExtensionProcesses = 0.30f;
+-
+-// This GUID is associated with any 'don't ask me again' settings that the
+-// user can select for different file types.
+-// {2676A9A2-D919-4FEE-9187-152100393AB2}
+-const char kApplicationClientIDStringForAVScanning[] =
+-    "2676A9A2-D919-4FEE-9187-152100393AB2";
+-
+ }  // namespace chrome
+ 
+ #undef FPL
+diff --git a/chrome/installer/linux/BUILD.gn b/chrome/installer/linux/BUILD.gn
+index e9c0cda539..52da11361c 100644
+--- a/chrome/installer/linux/BUILD.gn
++++ b/chrome/installer/linux/BUILD.gn
+@@ -4,7 +4,7 @@
+ 
+ import("//build/config/c++/c++.gni")
+ import("//build/config/chrome_build.gni")
+-import("//build/config/compiler_opt.gni")
++thorium_linux_package_suffix = "_AVX512"
+ import("//build/config/sanitizers/sanitizers.gni")
+ import("//build/config/sysroot.gni")
+ import("//build/linux/strip_binary.gni")
+diff --git a/chrome/installer/linux/common/installer.py b/chrome/installer/linux/common/installer.py
+index ad2449d270..ad0a6cebfe 100644
+--- a/chrome/installer/linux/common/installer.py
++++ b/chrome/installer/linux/common/installer.py
+@@ -89,15 +89,19 @@ def gen_changelog(context, staging_dir, deb_changelog):
+     script_dir = pathlib.Path(context["SCRIPTDIR"])
+     process_template(script_dir / "changelog.template", deb_changelog, context)
+ 
+-    run_command([
+-        "debchange",
+-        "-a",
+-        "--nomultimaint",
+-        "-m",
+-        "--changelog",
+-        str(deb_changelog),
+-        f"Release Notes: {context['RELEASENOTES']}",
+-    ])
++    if shutil.which("debchange"):
++        run_command([
++            "debchange",
++            "-a",
++            "--nomultimaint",
++            "-m",
++            "--changelog",
++            str(deb_changelog),
++            f"Release Notes: {context['RELEASENOTES']}",
++        ])
++    else:
++        with open(deb_changelog, "a") as f_cl:
++            f_cl.write(f"  * Release Notes: {context['RELEASENOTES']}\n\n -- {context['MAINTMAIL']}  {context['DATE_RFC5322']}\n")
+ 
+     gzlog_dir = staging_dir / f"usr/share/doc/{context['PACKAGE']}"
+     gzlog_dir.mkdir(parents=True, exist_ok=True)
+@@ -154,12 +158,18 @@ def _process_template_includes(input_file, include_stack):
+ def process_template(input_file, output_file, context):
+     content = _process_template_includes(input_file, [])
+ 
+-    for var_name, value in context.items():
+-        # Check if the variable is present in the content
++    for var_name in sorted(context.keys(), key=len, reverse=True):
++        value = context[var_name]
+         placeholder = f"@@{var_name}@@"
+         if placeholder in content:
+             content = content.replace(placeholder, str(value))
+ 
++    for var_name in sorted(context.keys(), key=len, reverse=True):
++        value = context[var_name]
++        placeholder_single = f"@@{var_name}"
++        if placeholder_single in content:
++            content = content.replace(placeholder_single, str(value))
++
+     with open(output_file, "w") as f:
+         f.write(content)
+ 

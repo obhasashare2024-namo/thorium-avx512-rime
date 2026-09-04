@@ -1,0 +1,16 @@
+diff --git a/components/web_package/signed_web_bundles/integrity_block_parser.cc b/components/web_package/signed_web_bundles/integrity_block_parser.cc
+index c4717fc3e5..aa75047cb9 100644
+--- a/components/web_package/signed_web_bundles/integrity_block_parser.cc
++++ b/components/web_package/signed_web_bundles/integrity_block_parser.cc
+@@ -104,9 +104,9 @@ void IntegrityBlockParser::OnIntegrityBlockRead(
+     return;
+   }
+ 
+-  const auto parse_res = parse_integrity_block(*data);
++  auto parse_res = parse_integrity_block(*data);
+   if (!parse_res.has_value()) {
+-    const auto& error = parse_res.error();
++    const auto& error = parse_res.err();
+     RunErrorCallback(std::string(error.message.as_str()),
+                      error.is_version_error
+                          ? mojom::BundleParseErrorType::kVersionError

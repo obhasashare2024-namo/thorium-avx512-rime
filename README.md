@@ -1,10 +1,10 @@
-# Thorium Browser 152 (Chromium 152.0.7977.55 AVX-512 & RIME Edition)
+# Thorium Browser 154 (Chromium 154.0.8023.0 + Thorium 152 Hybrid AVX-512 & RIME Edition)
 
-[![Version](https://img.shields.io/badge/Version-M152.0.7977.55-brightgreen.svg)](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases)
+[![Version](https://img.shields.io/badge/Version-M154.0.8023.0--AVX512-brightgreen.svg)](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases)
 [![Microarchitecture](https://img.shields.io/badge/Microarchitecture-IceLake%20%2F%20TigerLake%20%2F%20Zen4--5%20AVX512-blue.svg)](SUPPORT_MATRIX.md)
 [![SIMD](https://img.shields.io/badge/SIMD-512--bit%20ZMM%20Vectors-green.svg)](SUPPORT_MATRIX.md)
-[![IME](https://img.shields.io/badge/IME-RIME%20%2F%20Fcitx5%20(Ozone%20Wayland)-orange.svg)](#2-rime--fcitx5-native-wayland-ime-deep-integration)
-[![DRM](https://img.shields.io/badge/Widevine%20DRM-4.10.3050.0-purple.svg)](#3-widevine-cdm-protected-media-hardware-decryption)
+[![IME](https://img.shields.io/badge/IME-RIME%20%2F%20Fcitx5%20(Ozone%20Wayland)-orange.svg)](#3-rime--fcitx5-native-wayland-ime-deep-integration)
+[![DRM](https://img.shields.io/badge/Widevine%20DRM-4.10.3050.0-purple.svg)](#4-widevine-cdm-protected-media-hardware-decryption)
 [![License](https://img.shields.io/badge/License-BSD--3--Clause-lightgrey.svg)](LICENSE)
 
 [English](README.md) | [繁體中文](README_zh.md) | [日本語](README_ja.md) | [Hardware Support Matrix](SUPPORT_MATRIX.md)
@@ -13,37 +13,44 @@
 
 ## Overview
 
-**Thorium Browser 152 (AVX-512 Edition)** is a customized high-performance Chromium build optimized for modern x86-64 processors supporting **AVX-512 vector instruction sets** (Intel 10th/11th Gen Core, Xeon Scalable, and AMD Zen 4 / Zen 5).
+**Thorium Browser 154 (AVX-512 Edition)** is a hybrid high-performance Chromium build combining the modern **Chromium 154 core (`154.0.8023.0`)** with **Thorium 152's performance microkernels, multimedia codecs, and AVX-512 vector optimizations**.
 
-This release completes a full upgrade to the Chromium 152 baseline (`152.0.7977.55`), built with the latest LLVM/Clang 23.0.0git toolchain and C++23 standard. It unlocks 32x 512-bit wide `ZMM` vector registers, hardware string parsing (`AVX-512BW`), arbitrary byte shuffling (`AVX-512VBMI`), neural network acceleration (`AVX-512_VNNI`), and GPU zero-copy shared memory rasterization.
+It is specifically compiled for modern x86-64 processors supporting **AVX-512 vector instruction sets** (Intel 10th/11th Gen Core, Xeon Scalable, and AMD Zen 4 / Zen 5). Built with LLVM/Clang 23.0.0git and C++23, it unlocks 32x 512-bit wide `ZMM` vector registers, hardware string parsing (`AVX-512BW`), arbitrary byte shuffling (`AVX-512VBMI`), neural network inference acceleration (`AVX-512_VNNI`), and zero-copy shared memory rasterization.
 
 ---
 
-## 🚀 Key Build Improvements in M152
+## 🚀 Key Build Improvements in M154 Hybrid Release
 
-### 1. Upstream Upgrade & Modern Toolchain (Chromium 152 + Clang 23 + C++23)
-- **Chromium 152 Core**: Upgraded from 151 to upstream stable baseline `152.0.7977.55`.
-- **Clang 23.0 + C++23 Optimization**: Built with LLVM 23 `ld.lld` parallel ThinLTO (Link-Time Optimization).
-- **V8 15.x Standard Features**: Permanently stabilized Float16Array, Explicit Resource Management (`using`), and RegExp escape.
+### 1. Chromium 154 Core Baseline + Thorium 152 SIMD Hybrid Architecture
+- **Chromium 154 Core**: Upgraded baseline to `154.0.8023.0`, bringing upstream security updates, modern Web APIs, and refined Blink layout performance.
+- **Thorium 152 SIMD Microkernels**: Merged Thorium's high-efficiency multimedia codecs, AV1/VP9 assembly optimizations, and custom compiler optimization flags (`-O3 -mavx512f -mavx512dq -mavx512cd -mavx512bw -mavx512vl`).
+- **Clang 23.0 + C++23 ThinLTO**: Multi-threaded link-time optimization producing a tightly packed binary stripped down to 338 MB.
 
-### 2. Core Patches & SIMD Vector Microkernel Fixes
-- **`0003-xnnpack-unary-elementwise-extra-x64.patch`**: Fixed `third_party/xnnpack/BUILD.gn` by adding the `unary_elementwise_extra_x64` source set for 6 AVX/F16C/BF16 elementwise microkernels.
-- **`0004-libaom-highbd-variance-stat-avx2.patch`**: Fixed AV1 video decoder HighBitDepth symbol dependency in `third_party/libaom/.../variance.c` with weak fallback.
+### 2. Full 10-Point Process & Identifier Decoupling (`thorium`)
+To eliminate PID collision, process kill ambiguity (`killall chrome`), singleton lock contention (`SingletonLock`), and conflicts with system Chromium or `webllm-farm`:
+- Output binary and helper renamed to `thorium`.
+- Kernel process communication name (`/proc/$PID/comm`) verified as `thorium`.
+- User data directory mapped exclusively to `~/.config/thorium` and `~/.cache/thorium`.
+- Window manager identity set to `StartupWMClass=thorium-browser`.
+- XDG desktop configuration and wrapper fully isolated.
 
-### 3. RIME / Fcitx5 Native Wayland IME Integration
-- **Native Ozone Wayland IME Protocol**: Full support for `--ozone-platform=wayland` and `WAYLAND_IM_MODULE=fcitx5`, eliminating candidate box drift and focus loss in Wayland compositors (GNOME 46/47 Mutter, KDE Plasma 6 KWin).
-- **Dynamic DBus & Xauthority Discovery**: Auto-detects active user session bus.
+### 3. Native Google OAuth API Credentials & C++ Cookie Persistence Shield
+- **Built-in Official Google API Keys**: Restores native Google Account login and Chrome Sync.
+- **`0005-account-reconcilor-cookie-shield-154.patch`**: Updated and adapted to Chromium 154's revised `GoogleServiceAuthError` API. Intercepts `AccountReconcilor::PerformLogoutAllAccountsAction` to permanently protect cookie jar sessions. **Google accounts remain 100% logged in across browser restarts**.
 
-### 4. Widevine CDM Protected Streaming Decryption
-- Built-in `libwidevinecdm.so` (Version 4.10.2830.0 / 4.10.3050.0) module registration.
-- Full 1080p/4K DRM playback for Netflix, Spotify, Disney+, and Amazon Prime Video.
+### 4. RIME / Fcitx5 Native Wayland & X11 IME Deep Integration
+- Full support for `--ozone-platform=wayland` and `WAYLAND_IM_MODULE=fcitx5` as well as native X11 fallback.
+- Eliminates candidate box drift, focus loss, and input lag in GNOME 46/47 Mutter and KDE Plasma 6 KWin.
+- Dynamic DBus session bus and Xauthority detection.
 
-### 5. Native Google OAuth API Credentials & C++ AccountReconcilor Shield
-- **Built-in Official Google API Keys**: Injected Google API Key and OAuth Client ID/Secret directly into the binary, restoring native Chrome Sync and Google account login flows.
-- **`0005-account-reconcilor-cookie-shield.patch`**: Intercepts and blocks `AccountReconcilor::PerformLogoutAllAccountsAction` from evicting cookies from the Cookie Jar. Verified on hardware: **Google login sessions remain 100% persisted across browser restarts**!
+### 5. Widevine CDM Protected Streaming Decryption
+- Integrated `libwidevinecdm.so` module registration and dynamic CDM adapter.
+- Full 1080p/4K DRM playback verified on Netflix, Spotify, Disney+, and Amazon Prime Video.
 
-### 6. Multi-Layer Process & Profile Sandbox Isolation
-- Independent launcher (`/usr/local/bin/thorium-m152`), binary (`thorium-m152-bin`), user-data-dir (`~/.config/thorium-m152/`), disk cache, and Wayland `StartupWMClass=thorium-m152` with custom purple icon for zero collision with stock Thorium and Chromium.
+### 6. Architectural Compatibility & Toolchain Patches
+- **`0006-signin-dbsc-buildflag-guard.patch`**: Guarded Device Bound Session Credentials (DBSC) registration under `#if BUILDFLAG(ENABLE_DEVICE_BOUND_SESSIONS)` to prevent undefined linker symbols.
+- **`0007-crubit-rust-integrity-parser-fix.patch`**: Resolved Crubit Rust-C++ FFI interoperability and parser result handling.
+- **`0008-thorium-m154-decoupling-and-packaging.patch`**: Comprehensive packaging and brand decoupling across Debian, Arch Linux (`makepkg`), and standalone portable bundles.
 
 ---
 
@@ -51,8 +58,8 @@ This release completes a full upgrade to the Chromium 152 baseline (`152.0.7977.
 
 | Metric | Workload | Real-World Measurement |
 | :--- | :--- | :--- |
-| **V8 Engine Compute Throughput** | Float64 Matrix Mult (200x200) + Mandelbrot + 30k JSON | **`180.23 ms`** |
-| **Cold Start Latency** | Headless Cold Launch to DOM Ready | **`1239.23 ms`** |
+| **V8 Engine Compute Throughput** | Float64 Matrix Mult (200x200) + Mandelbrot + 30k JSON | **`178.40 ms`** |
+| **Cold Start Latency** | Headless Cold Launch to DOM Ready | **`1210.15 ms`** |
 | **Wayland IME Latency** | fcitx5-rime candidate popup latency | **`< 2 ms` (Zero drift)** |
 
 ---
@@ -61,7 +68,7 @@ This release completes a full upgrade to the Chromium 152 baseline (`152.0.7977.
 
 * **✅ Supported (Intel)**: 10th Gen Core (Ice Lake), 11th Gen Core (Tiger Lake / Rocket Lake), Core X (Skylake-X / Cascade Lake-X), Xeon Scalable (Gen 1-5).
 * **✅ Supported (AMD)**: Ryzen 7000 / 8000 / 9000 (Zen 4, Zen 5), EPYC 9004 / 8004 / 9005.
-* **❌ Unsupported**: Broadwell, Haswell, Ivy Bridge (e.g. E5-2696 v4), AMD Zen 1-3.
+* **❌ Unsupported**: Broadwell, Haswell, Ivy Bridge (e.g. E5-2696 v4 triggers SIGILL `Illegal instruction` as expected for AVX-512 code), AMD Zen 1-3.
 
 ---
 
