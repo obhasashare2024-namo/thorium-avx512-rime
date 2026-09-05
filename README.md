@@ -26,13 +26,14 @@ It is specifically compiled for modern x86-64 processors supporting **AVX-512 ve
 - **Thorium 152 SIMD Microkernels**: Merged Thorium's high-efficiency multimedia codecs, AV1/VP9 assembly optimizations, and custom compiler optimization flags (`-O3 -mavx512f -mavx512dq -mavx512cd -mavx512bw -mavx512vl`).
 - **Clang 23.0 + C++23 ThinLTO**: Multi-threaded link-time optimization producing a tightly packed binary stripped down to 338 MB.
 
-### 2. Full 10-Point Process & Identifier Decoupling (`thorium`)
+### 2. Full Atom Logo Rebase, Gold Icon Asset & Hardcoded Process Decoupling (`thorium`)
 To eliminate PID collision, process kill ambiguity (`killall chrome`), singleton lock contention (`SingletonLock`), and conflicts with system Chromium or `webllm-farm`:
-- Output binary and helper renamed to `thorium`.
-- Kernel process communication name (`/proc/$PID/comm`) verified as `thorium`.
-- User data directory mapped exclusively to `~/.config/thorium` and `~/.cache/thorium`.
-- Window manager identity set to `StartupWMClass=thorium-browser`.
-- XDG desktop configuration and wrapper fully isolated.
+- **Official Atom Logo Rebase**: Replaced all resource assets with official Thorium atom logos (16x16 to 256x256), eliminating all legacy Chromium roundel artifacts.
+- **About Page UI & Scale Fix**: CSS injection `#productLogo { width: 32px; height: 32px; }` preventing oversized logos; complete localization branding string override ("Settings - About Thorium - Thorium").
+- **Exclusive Gold Icon Asset**: Bundled distinct metallic gold atom icon (`assets/thorium-gold.png`) for instant visual decoupling alongside farm green and standard purple profiles.
+- **Kernel Process Hardening**: Binary output locked to `thorium` in `chrome/BUILD.gn` and kernel process communication name (`/proc/$PID/comm`) enforced via `prctl(PR_SET_NAME, "thorium")`.
+- **User Data & Cache Directories**: Mapped exclusively to `~/.config/thorium` and `~/.cache/thorium`.
+- **Window Manager Identity**: `StartupWMClass=thorium-browser` (or `StartupWMClass=t154` in isolated test scopes).
 
 ### 3. Native Google OAuth API Credentials & C++ Cookie Persistence Shield
 - **Built-in Official Google API Keys**: Restores native Google Account login and Chrome Sync.
@@ -51,6 +52,13 @@ To eliminate PID collision, process kill ambiguity (`killall chrome`), singleton
 - **`0006-signin-dbsc-buildflag-guard.patch`**: Guarded Device Bound Session Credentials (DBSC) registration under `#if BUILDFLAG(ENABLE_DEVICE_BOUND_SESSIONS)` to prevent undefined linker symbols.
 - **`0007-crubit-rust-integrity-parser-fix.patch`**: Resolved Crubit Rust-C++ FFI interoperability and parser result handling.
 - **`0008-thorium-m154-decoupling-and-packaging.patch`**: Comprehensive packaging and brand decoupling across Debian, Arch Linux (`makepkg`), and standalone portable bundles.
+
+### 7. Release Artifacts & SHA-256 Checksums
+| Package | Format | SHA-256 Checksum |
+| :--- | :--- | :--- |
+| `thorium-browser_154.0.8023.0_AVX512.deb` | Debian / Ubuntu / Deepin | `d61a5234bbc83915cb868535e5c038f90f6644054c09bd12fa68d00750a1426d` |
+| `thorium-browser-avx512-rime-bin-154.0.8023.0-1-x86_64.pkg.tar.zst` | Arch Linux / CachyOS / Artix | `1a651544265f3eded82b4c4a31bff085beee253c3abee61a27ddb9eab445b48e` |
+| `thorium-browser-avx512-rime-bin-154.0.8023.0.tar.gz` | Generic Linux Portable Tarball | `9208ebd6e26a74167a90d6ed43c4c1bc767b264f9f85df75965932889de19e5d` |
 
 ---
 

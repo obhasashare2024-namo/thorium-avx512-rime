@@ -26,14 +26,14 @@
 - **Thorium 152 向量微內核移植**：完整保留 Thorium 高效編解碼器、AV1/VP9 彙編優化以及專屬編譯優化參數（`-O3 -mavx512f -mavx512dq -mavx512cd -mavx512bw -mavx512vl`）。
 - **Clang 23.0 + C++23 平行 ThinLTO**：經過高負載編譯調校，最終二進制檔案精簡至 338 MB。
 
-### 2. 全維度 10 大核心位置改名與解耦（`thorium`，徹底杜絕 PID 撞車）
-為避免與系統預設 Chromium 或 `webllm-farm` 背景農奴實例發生單例鎖爭奪（`SingletonLock`）或 `killall chrome` 誤殺，本版本在源碼與封裝層級實施全維度解耦：
-- 二進制產物命名：`thorium`
-- 內核進程通信標識（`/proc/$PID/comm`）：`thorium`
-- 使用者設定目錄：`~/.config/thorium`
-- 快取緩存目錄：`~/.cache/thorium`
-- 桌面視窗歸類標識：`StartupWMClass=thorium-browser`
-- 桌面快捷圖標與包裝腳本：完全獨立，互不干擾。
+### 2. 全面 Thorium 官方原子核圖標 Rebase、金色標識與進程名解耦
+為避免與系統預設 Chromium 或 `webllm-farm` 背景農奴實例發生單例鎖爭奪（`SingletonLock`）或 `killall chrome` 誤殺，本版本在源碼與封裝層級實施全維度解耦與官方品牌復歸：
+- **官方原子核圓形圖標 Rebase**：全面替換各分辨率之圖標資源為 Thorium 官方原子核 Logo（16x16 至 256x256），徹底修正前版 Chromium 圓環殘留。
+- **About 頁面與 UI 比例修復**：CSS 注入 `#productLogo { width: 32px; height: 32px; }`，解決 Logo 巨大化或錯位；繁中語系字串全量復寫為「設定 - 關於 Thorium - Thorium」，無殘留「About Chromium」。
+- **專屬金色標識（Gold Icon Asset）**：內嵌金屬亮金圓環視覺圖標（`assets/thorium-gold.png`），方便與既有瀏覽器（如農場綠色版、152 紫色版）進行視覺物理隔離。
+- **二進制與內核進程硬化**：`chrome/BUILD.gn` 鎖定輸出名為 `thorium`，`base/process/set_process_title.cc` 調用 `prctl(PR_SET_NAME, "thorium")` 鎖定內核通信標識（`/proc/$PID/comm`），彻底杜絕進程撞車。
+- **使用者設定與快取目錄**：`~/.config/thorium` 與 `~/.cache/thorium`。
+- **桌面視窗歸類標識**：`StartupWMClass=thorium-browser`（隔離版注入 `StartupWMClass=t154`）。
 
 ### 3. 正態官方 Google Auth 憑據與內核級 C++ 護盾（重啟登入永不丟失）
 - **編入官方 Google API 憑據**：原生編入 Google API Key 與 OAuth Client ID/Secret，徹底恢復 Chrome Sync 與 Google 帳戶原生登入管道。
@@ -51,6 +51,13 @@
 - **`0006-signin-dbsc-buildflag-guard.patch`**：包裹 DBSC 特性代碼，修復禁用 Device Bound Sessions 時引發的鏈接符號未定義錯誤。
 - **`0007-crubit-rust-integrity-parser-fix.patch`**：修復 Crubit Rust-C++ FFI 結果解析介面。
 - **`0008-thorium-m154-decoupling-and-packaging.patch`**：Debian / Arch Linux (`makepkg`) / 便攜 Tarball 三軌自動化封裝支持。
+
+### 7. 發行套件與 SHA-256 校驗總表
+| 安裝包名稱 | 格式 | SHA-256 散列碼 |
+| :--- | :--- | :--- |
+| `thorium-browser_154.0.8023.0_AVX512.deb` | Debian / Ubuntu / Deepin | `d61a5234bbc83915cb868535e5c038f90f6644054c09bd12fa68d00750a1426d` |
+| `thorium-browser-avx512-rime-bin-154.0.8023.0-1-x86_64.pkg.tar.zst` | Arch Linux / CachyOS / Artix | `1a651544265f3eded82b4c4a31bff085beee253c3abee61a27ddb9eab445b48e` |
+| `thorium-browser-avx512-rime-bin-154.0.8023.0.tar.gz` | 通用 Linux 免安裝綠色包 | `9208ebd6e26a74167a90d6ed43c4c1bc767b264f9f85df75965932889de19e5d` |
 
 ---
 
