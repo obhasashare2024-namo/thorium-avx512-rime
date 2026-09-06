@@ -1,14 +1,16 @@
-# Thorium Browser v154.0.8023.0 (AVX-512 & AVX2 & RIME 金色旗舰版)
+# Thorium Browser v154.0.8023.0 (AVX-512 & RIME 旗舰版)
 
-次世代 **Chromium 154（154.0.8023.0）** 核心引擎與 **Thorium 152** 極致效能架構之雙軌微架構旗艦發行版本，提供 **AVX-512** 與 **AVX2** 雙原生編譯構建。
+次世代 **Chromium 154（154.0.8023.0）** 核心引擎與 **Thorium 152** 極致效能架構之旗艦發行版本，針對現代 **AVX-512（Skylake-X / Ice Lake / Zen 4 / Zen 5）** 處理器進行 512 位元原生硬體向量加速優化。
+
+> [!TIP]
+> **尋找 AVX2 版本？**：若您的 CPU 不支援 AVX-512（例如 Intel 4代至14代無 AVX-512 處理器、Xeon E3/E5 v3/v4 或 AMD Zen 1-3），請至獨立專屬倉庫下載：[Thorium AVX2 專屬倉庫](https://github.com/obhasashare2024-namo/thorium-avx2-rime)。
 
 ---
 
 ### 🚀 核心升級與重大改進
 
-1. **雙微架構原生支援（AVX-512 & AVX2）**
-   - **AVX-512 旗艦版**：鎖定 `skylake-avx512`（AVX-512F, AVX-512BW, AVX-512CD, AVX-512DQ, AVX-512VL），釋放 32 個 512 位元 ZMM 向量暫存器極致效能。
-   - **AVX2 廣泛兼容版**：鎖定 `haswell`（AVX2, FMA3, BMI1/2），覆蓋 Intel 4 代至 14 代 Core 及 AMD 全系列 Zen 架構。
+1. **AVX-512 旗艦微架構原生支援**
+   - 鎖定 `skylake-avx512`（AVX-512F, AVX-512BW, AVX-512CD, AVX-512DQ, AVX-512VL），釋放 32 個 512 位元 ZMM 向量暫存器極致效能。
    - 啟用 Clang 23.0 + C++23 平行 ThinLTO 全局鏈接時優化，二進制體積精簡至 ~339 MB。
 
 2. **Patch 0005: AccountReconcilor C++ Cookie Shield 登入持久化護盾**
@@ -23,11 +25,9 @@
    - 內置 `libwidevinecdm.so` 模組連結通道，原生支援 Netflix 1080p、Spotify、Disney+、Apple Music 高規格串流。
    - 全解禁 HEVC (H.265)、Dolby Vision、Dolby Audio (AC3/E-AC3) 與 VA-API GPU 硬體加速。
 
-5. **全方位官方原子核 Logo Rebase、金色標識與進程名解耦**
-   - 替換全分辨率官方 Thorium 原子核圖標資源（16x16 至 256x256），修復前版 Chromium 圓環殘留。
-   - 深入 `resources.pak`、`chrome_100_percent.pak`、`chrome_200_percent.pak` 替換內部商標，About 頁面原生呈現純金 Logo。
-   - 系統各解析度圖標與桌面捷徑全面同步為金屬亮金圓環視覺圖標（`thorium-gold.png`），方便與現有各版本進行物理桌面隔離。
-   - 二進制命名與內核 `/proc/$PID/comm` 雙重硬化為 `thorium`，徹底杜絕單例鎖爭用與 `killall chrome` 誤殺。
+5. **深紫色閃電 Logo、原子核原子圖標與進程名硬化**
+   - 全面替換為使用者核准之深紫色閃電視覺標識（`thorium-purple-lightning.png` 與全套 16x16 至 512x512 桌面圖標），與系統各版本物理隔離。
+   - 二進制命名與內核 `/proc/$PID/comm` 雙重硬化為 `thorium`，徹底杜絕單例鎖爭用。
 
 ---
 
@@ -35,23 +35,16 @@
 
 | 附件檔案 | 微架構 | 適用系統 | 檔案大小 | SHA-256 校驗碼 |
 | :--- | :--- | :--- | :--- | :--- |
-| `thorium-browser_154.0.8023.0_AVX512.deb` | AVX-512 | Debian / Ubuntu / Deepin | 217 MB | `d61a5234bbc83915cb868535e5c038f90f6644054c09bd12fa68d00750a1426d` |
-| `thorium-browser-avx512-rime-bin-154.0.8023.0-1-x86_64.pkg.tar.zst` | AVX-512 | Arch Linux / CachyOS / Artix | 279 MB | `1a651544265f3eded82b4c4a31bff085beee253c3abee61a27ddb9eab445b48e` |
-| `thorium-browser-avx512-rime-bin-154.0.8023.0-portable.tar.gz` | AVX-512 | 通用 Linux 免安裝綠色便攜包 | 291 MB | `9208ebd6e26a74167a90d6ed43c4c1bc767b264f9f85df75965932889de19e5d` |
-| `thorium-browser_154.0.8023.0_AVX2.deb` | AVX2 | Debian / Ubuntu / Deepin | 217 MB | `f4856157f2f82fe9b01dd1da8ab797aa8d487451187872bc74f463a746bd75d8` |
-| `thorium-browser-avx2-rime-bin-154.0.8023.0-1-x86_64.pkg.tar.zst` | AVX2 | Arch Linux / CachyOS / Artix | 279 MB | `612d2d4ed6138d58deadd46322f3d2dcc2d4d32029cf3df58191867e0695b682` |
-| `thorium-browser-avx2-rime-bin-154.0.8023.0-portable.tar.gz` | AVX2 | 通用 Linux 免安裝綠色便攜包 | 291 MB | `dd2d45e17bfc4f1f29cf6f78dd6b2a7c6b3d7ab2e8def131b422f4fdb8d850e0` |
-| `thorium-gold.png` | 通用 | 官方專屬金色圓環圖標 | 11 KB | `0ca24a89340bcbace48f6b4f4ee1f71b36777d3bd2edd06a6b6591547027d321` |
-| `thorium-m154-avx512-suite.zip` | 通用 | 補丁與配置一鍵隨身包 | 32 KB | `0ecb9b8b6ff92a7e7bb60b133ba50c379a7852c00a4023b8273eaee179f8ad38` |
+| `thorium-browser_154.0.8023.0_AVX512.deb` | AVX-512 | Debian / Ubuntu / Deepin | 217 MB | `acc80ba2383cc2f86df2c4de31d4ac491547c58dffbebd5fad32bcbf17aac6b1` |
+| `thorium-browser-avx512-rime-bin-154.0.8023.0-1-x86_64.pkg.tar.zst` | AVX-512 | Arch Linux / CachyOS / Artix | 279 MB | `07471efb1f614c552f7e2d4c52a3b6c3c8b44fdae014cc5e82b954d9a68874bb` |
+| `thorium-browser-avx512-rime-bin-154.0.8023.0-portable.tar.gz` | AVX-512 | 通用 Linux 免安裝綠色便攜包 | 291 MB | `975843f28449eddc64f65bd2180c816fded905c07b25c3c09c46a007c0276fa5` |
+| `thorium-m154-avx512-suite.zip` | 通用 | 補丁與配置一鍵隨身包 | 32 KB | `0af3f790cae9097205be546f187ddf6b23c07d0dd33f1260db6f2192c4e0d246` |
+| `thorium-purple-lightning.png` | 通用 | 官方深紫色閃電發行圖標 | 106 KB | `1f248d1baacb26d0ba769d90116bd7784b8c3ac8e5f823fb25634f3778968d53` |
 | `SHA256SUMS.txt` | 通用 | 官方二進制發行校驗表 | 1 KB | 完整校驗總表 |
 
 ---
 
 ### 💻 支援處理器微架構清單
 
-- **AVX-512 版本**：
-  - **Intel**：第 10 代 Core（Ice Lake）、第 11 代 Core（Tiger Lake / Rocket Lake）、Core X 系列（Skylake-X / Cascade Lake-X）、Xeon Scalable（第 1 至 5 代）。
-  - **AMD**：Ryzen 7000 / 8000 / 9000 系列（Zen 4、Zen 5）、EPYC 9004 / 8004 / 9005。
-- **AVX2 版本**：
-  - **Intel**：第 4 代 Core（Haswell）至第 14 代 Core（Raptor Lake Refresh）、Xeon E3/E5 v3/v4 等所有具備 AVX2 指令集之處理器。
-  - **AMD**：Ryzen 1000 至 5000 系列（Zen 1, Zen+, Zen 2, Zen 3）及更早之 Excavator 架構。
+- **Intel**：第 10 代 Core（Ice Lake）、第 11 代 Core（Tiger Lake / Rocket Lake）、Core X 系列（Skylake-X / Cascade Lake-X）、Xeon Scalable（第 1 至 5 代）。
+- **AMD**：Ryzen 7000 / 8000 / 9000 系列（Zen 4、Zen 5）、EPYC 9004 / 8004 / 9005。
