@@ -1,12 +1,3 @@
-# Thorium Browser M154.0.8023.0 Dual Microarchitecture Release (AVX-512 & AVX2 & RIME)
-# Date: 2026-09-06
-
-# --- AVX-512 Microarchitecture (Skylake-X, Cascade Lake, Ice Lake, Tiger Lake, Rocket Lake, Zen 4/5) ---
-d61a5234bbc83915cb868535e5c038f90f6644054c09bd12fa68d00750a1426d  thorium-browser_154.0.8023.0_AVX512.deb
-1a651544265f3eded82b4c4a31bff085beee253c3abee61a27ddb9eab445b48e  thorium-browser-avx512-rime-bin-154.0.8023.0-1-x86_64.pkg.tar.zst
-9208ebd6e26a74167a90d6ed43c4c1bc767b264f9f85df75965932889de19e5d  thorium-browser-avx512-rime-bin-154.0.8023.0-portable.tar.gz
-
-# --- AVX2 Microarchitecture (Haswell, Broadwell, Skylake, Kaby Lake, Coffee Lake, Comet Lake, Zen 1/2/3) ---
-f4856157f2f82fe9b01dd1da8ab797aa8d487451187872bc74f463a746bd75d8  thorium-browser_154.0.8023.0_AVX2.deb
-612d2d4ed6138d58deadd46322f3d2dcc2d4d32029cf3df58191867e0695b682  thorium-browser-avx2-rime-bin-154.0.8023.0-1-x86_64.pkg.tar.zst
-dd2d45e17bfc4f1f29cf6f78dd6b2a7c6b3d7ab2e8def131b422f4fdb8d850e0  thorium-browser-avx2-rime-bin-154.0.8023.0-portable.tar.gz
+acc80ba2383cc2f86df2c4de31d4ac491547c58dffbebd5fad32bcbf17aac6b1  thorium-browser_154.0.8023.0_AVX512.deb
+07471efb1f614c552f7e2d4c52a3b6c3c8b44fdae014cc5e82b954d9a68874bb  thorium-browser-avx512-rime-bin-154.0.8023.0-1-x86_64.pkg.tar.zst
+975843f28449eddc64f65bd2180c816fded905c07b25c3c09c46a007c0276fa5  thorium-browser-avx512-rime-bin-154.0.8023.0-portable.tar.gz
