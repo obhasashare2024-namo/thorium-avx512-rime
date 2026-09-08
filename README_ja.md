@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/thorium-lightning-yinyang.png" width="220" alt="Thorium Browser Emblem">
+</p>
+
 # Thorium Browser 154（Chromium 154.0.8023.0 + Thorium 152 ハイブリッド AVX-512 旗艦版）- RIME IME統合＆ハードウェア動画デコード
 
 [![リリース](https://img.shields.io/badge/リリース-v154.0.8023.0-brightgreen.svg)](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/tag/v154.0.8023.0)
