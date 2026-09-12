@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/thorium-lightning-yinyang.png" width="220" alt="Thorium Browser Emblem">
+  <img src="assets/thorium-purple-lightning.png" width="220" alt="Thorium Browser Emblem">
 </p>
 
 # Thorium Browser 154 (Chromium 154.0.8023.0 + Thorium 152 Hybrid AVX-512 & RIME Edition)
@@ -42,7 +42,6 @@ Compiled with `-march=skylake-avx512 -O3` using LLVM/Clang 23.0.0git, C++23, and
 To eliminate PID collision, singleton lock contention (`SingletonLock`), and conflicts with system Chromium or `webllm-farm`:
 - **Official Atom Logo Rebase**: Replaced all resource assets with official Thorium atom logos (16x16 to 256x256), eliminating all legacy Chromium roundel artifacts.
 - **About Page UI & Scale Fix**: CSS injection `#productLogo { width: 32px; height: 32px; }` preventing oversized logos; complete localization branding string override ("Settings - About Thorium - Thorium").
-- **Exclusive Gold Icon Asset**: Bundled distinct metallic gold atom icon (`assets/thorium-gold.png`) for instant visual decoupling alongside farm green and standard purple profiles.
 - **Kernel Process Hardening**: Binary output locked to `thorium` in `chrome/BUILD.gn` and kernel process communication name (`/proc/$PID/comm`) enforced via `prctl(PR_SET_NAME, "thorium")`.
 - **User Data & Cache Directories**: Mapped exclusively to `~/.config/thorium` and `~/.cache/thorium`.
 - **Window Manager Identity**: `StartupWMClass=thorium-browser`.
@@ -75,7 +74,6 @@ To eliminate PID collision, singleton lock contention (`SingletonLock`), and con
 | [`thorium-browser_154.0.8023.0_AVX512.deb`](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/download/v154.0.8023.0/thorium-browser_154.0.8023.0_AVX512.deb) | Debian / Ubuntu / Deepin | `d61a5234bbc83915cb868535e5c038f90f6644054c09bd12fa68d00750a1426d` |
 | [`thorium-browser-avx512-rime-bin-154.0.8023.0-1-x86_64.pkg.tar.zst`](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/download/v154.0.8023.0/thorium-browser-avx512-rime-bin-154.0.8023.0-1-x86_64.pkg.tar.zst) | Arch Linux / CachyOS / Artix | `1a651544265f3eded82b4c4a31bff085beee253c3abee61a27ddb9eab445b48e` |
 | [`thorium-browser-avx512-rime-bin-154.0.8023.0-portable.tar.gz`](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/download/v154.0.8023.0/thorium-browser-avx512-rime-bin-154.0.8023.0-portable.tar.gz) | Generic Linux Portable Tarball | `9208ebd6e26a74167a90d6ed43c4c1bc767b264f9f85df75965932889de19e5d` |
-| [`thorium-gold.png`](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/download/v154.0.8023.0/thorium-gold.png) | Official Metallic Gold Icon Asset | `0ca24a89340bcbace48f6b4f4ee1f71b36777d3bd2edd06a6b6591547027d321` |
 | [`thorium-m154-avx512-suite.zip`](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/download/v154.0.8023.0/thorium-m154-avx512-suite.zip) | Full Source Patches & Setup Suite | `0ecb9b8b6ff92a7e7bb60b133ba50c379a7852c00a4023b8273eaee179f8ad38` |
 | [`SHA256SUMS.txt`](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/download/v154.0.8023.0/SHA256SUMS.txt) | Official Verification Checksum Manifest | Full Release Checksums |
 
