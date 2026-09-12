@@ -67,15 +67,20 @@ To eliminate PID collision, singleton lock contention (`SingletonLock`), and con
 
 ---
 
-## 📦 Release Artifacts & SHA-256 Checksums
+## 📦 Release Artifacts & Verification
 
-| Package | Format | SHA-256 Checksum |
+> [!IMPORTANT]
+> **Exclusive Download Location**: All binary installers, portable archives, emblems, and verification manifests are exclusively hosted under [GitHub Releases Assets](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/latest). Direct binary download links are intentionally omitted from repository source pages.
+
+| Package / Artifact | Format / Target Platform | SHA-256 Checksum |
 | :--- | :--- | :--- |
-| [`thorium-browser_154.0.8023.0_AVX512.deb`](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/download/v154.0.8023.0/thorium-browser_154.0.8023.0_AVX512.deb) | Debian / Ubuntu / Deepin | `d61a5234bbc83915cb868535e5c038f90f6644054c09bd12fa68d00750a1426d` |
-| [`thorium-browser-avx512-rime-bin-154.0.8023.0-1-x86_64.pkg.tar.zst`](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/download/v154.0.8023.0/thorium-browser-avx512-rime-bin-154.0.8023.0-1-x86_64.pkg.tar.zst) | Arch Linux / CachyOS / Artix | `1a651544265f3eded82b4c4a31bff085beee253c3abee61a27ddb9eab445b48e` |
-| [`thorium-browser-avx512-rime-bin-154.0.8023.0-portable.tar.gz`](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/download/v154.0.8023.0/thorium-browser-avx512-rime-bin-154.0.8023.0-portable.tar.gz) | Generic Linux Portable Tarball | `9208ebd6e26a74167a90d6ed43c4c1bc767b264f9f85df75965932889de19e5d` |
-| [`thorium-m154-avx512-suite.zip`](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/download/v154.0.8023.0/thorium-m154-avx512-suite.zip) | Full Source Patches & Setup Suite | `0ecb9b8b6ff92a7e7bb60b133ba50c379a7852c00a4023b8273eaee179f8ad38` |
-| [`SHA256SUMS.txt`](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/download/v154.0.8023.0/SHA256SUMS.txt) | Official Verification Checksum Manifest | Full Release Checksums |
+| `Thorium_AVX512_154.0.8023.0_WIN64_Portable.zip` | Windows 64-bit AVX-512 Portable Archive | `12cf05d532bcefebe1c54b73b22416b80145c2ea0f46d3e1d16788db1f34ee64` |
+| `thorium-browser_154.0.8023.0_AVX512.deb` | Debian / Ubuntu / Deepin / antiX | `d61a5234bbc83915cb868535e5c038f90f6644054c09bd12fa68d00750a1426d` |
+| `thorium-browser-avx512-rime-bin-154.0.8023.0-1-x86_64.pkg.tar.zst` | Arch Linux / CachyOS / Artix | `1a651544265f3eded82b4c4a31bff085beee253c3abee61a27ddb9eab445b48e` |
+| `thorium-browser-avx512-rime-bin-154.0.8023.0-portable.tar.gz` | Generic Linux Portable Tarball | `9208ebd6e26a74167a90d6ed43c4c1bc767b264f9f85df75965932889de19e5d` |
+| `thorium-purple-lightning.png` | Standard Circle Purple Lightning Emblem | `33973827dfb7ce1a23efa72e69c0d357502af299562d7bf97934f16b830e57a2` |
+| `thorium-m154-avx512-suite.zip` | Full Source Patches & Setup Suite | `0ecb9b8b6ff92a7e7bb60b133ba50c379a7852c00a4023b8273eaee179f8ad38` |
+| `SHA256SUMS.txt` | Official Verification Checksum Manifest | Full Release Checksums |
 
 ---
 

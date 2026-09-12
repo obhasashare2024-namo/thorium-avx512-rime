@@ -68,15 +68,20 @@
 
 ---
 
-## 📦 發布附件與 SHA-256 校驗表
+## 📦 發布資產清單與校驗清單
+
+> [!IMPORTANT]
+> **專屬下載通道**：所有二進制安裝包、免安裝壓縮檔、官方圖標與完整性校驗清單，均**僅限於 [GitHub Releases Assets](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/latest) 列表內下載**。倉庫源碼主頁不提供直接二進制下載連結。
 
 | 套件檔案 | 發行版格式 | SHA-256 完整性雜湊值 |
 | :--- | :--- | :--- |
-| [`thorium-browser_154.0.8023.0_AVX512.deb`](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/download/v154.0.8023.0/thorium-browser_154.0.8023.0_AVX512.deb) | Debian / Ubuntu / Deepin | `d61a5234bbc83915cb868535e5c038f90f6644054c09bd12fa68d00750a1426d` |
-| [`thorium-browser-avx512-rime-bin-154.0.8023.0-1-x86_64.pkg.tar.zst`](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/download/v154.0.8023.0/thorium-browser-avx512-rime-bin-154.0.8023.0-1-x86_64.pkg.tar.zst) | Arch Linux / CachyOS / Artix | `1a651544265f3eded82b4c4a31bff085beee253c3abee61a27ddb9eab445b48e` |
-| [`thorium-browser-avx512-rime-bin-154.0.8023.0-portable.tar.gz`](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/download/v154.0.8023.0/thorium-browser-avx512-rime-bin-154.0.8023.0-portable.tar.gz) | 通用 Linux 免安裝綠色版 | `9208ebd6e26a74167a90d6ed43c4c1bc767b264f9f85df75965932889de19e5d` |
-| [`thorium-m154-avx512-suite.zip`](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/download/v154.0.8023.0/thorium-m154-avx512-suite.zip) | 補丁包、編譯參數與腳本全集 | `0af3f790cae9097205be546f187ddf6b23c07d0dd33f1260db6f2192c4e0d246` |
-| [`SHA256SUMS.txt`](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/download/v154.0.8023.0/SHA256SUMS.txt) | 官方校驗清單文件 | 發布全檔案校驗 |
+| `Thorium_AVX512_154.0.8023.0_WIN64_Portable.zip` | Windows 64-bit AVX-512 免安裝綠色版壓縮包 | `12cf05d532bcefebe1c54b73b22416b80145c2ea0f46d3e1d16788db1f34ee64` |
+| `thorium-browser_154.0.8023.0_AVX512.deb` | Debian / Ubuntu / Deepin / antiX | `d61a5234bbc83915cb868535e5c038f90f6644054c09bd12fa68d00750a1426d` |
+| `thorium-browser-avx512-rime-bin-154.0.8023.0-1-x86_64.pkg.tar.zst` | Arch Linux / CachyOS / Artix | `1a651544265f3eded82b4c4a31bff085beee253c3abee61a27ddb9eab445b48e` |
+| `thorium-browser-avx512-rime-bin-154.0.8023.0-portable.tar.gz` | 通用 Linux 免安裝綠色版 | `9208ebd6e26a74167a90d6ed43c4c1bc767b264f9f85df75965932889de19e5d` |
+| `thorium-purple-lightning.png` | 官方數學精確標準圓紫雷球徽標 | `33973827dfb7ce1a23efa72e69c0d357502af299562d7bf97934f16b830e57a2` |
+| `thorium-m154-avx512-suite.zip` | 補丁包、編譯參數與腳本全集 | `0af3f790cae9097205be546f187ddf6b23c07d0dd33f1260db6f2192c4e0d246` |
+| `SHA256SUMS.txt` | 官方校驗清單文件 | 發布全檔案校驗 |
 
 ---
 
