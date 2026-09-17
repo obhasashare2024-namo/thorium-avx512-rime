@@ -1,7 +1,7 @@
 #!/bin/bash
 SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-export GTK_IM_MODULE=fcitx
+unset GTK_IM_MODULE
 export QT_IM_MODULE=fcitx
 export XMODIFIERS="@im=fcitx"
 
@@ -28,6 +28,7 @@ exec "$SCRIPT_DIR/thorium" \
   --gtk-version=3 \
   --ozone-platform=x11 \
   --enable-features=UseOzonePlatform \
+  --disable-features=CalculateNativeWinOcclusion,SelectiveClipboardFormatRead \
   --disable-infobars \
   $GPU_FLAGS \
   "$@"
