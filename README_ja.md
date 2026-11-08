@@ -1,6 +1,7 @@
 # Thorium Browser 159（Skylake-AVX512＆RIME IME対応版）
 
 [![リリース](https://img.shields.io/badge/リリース-v159.0.8137.0-blue.svg)](https://github.com/obhasashare2024-namo/thorium-avx512-rime/releases/tag/v159.0.8137.0)
+[![ハイブリッドビルド](https://img.shields.io/badge/ハイブリッドビルド-公式%20Chromium%20159%20%2B%20Thorium%2015x-blueviolet.svg)](#-ハイブリッドコンパイルアーキテクチャと系譜-hybrid-compilation-architecture)
 [![アーキテクチャ](https://img.shields.io/badge/Architecture-Skylake--AVX512-blue.svg)](SUPPORT_MATRIX.md)
 [![SIMD](https://img.shields.io/badge/SIMD-512--bit%20ZMM%20(検証済み)-green.svg)](SUPPORT_MATRIX.md)
 [![IME](https://img.shields.io/badge/IME-RIME%20%2F%20Fcitx5%20(ゼロリーク)-orange.svg)](#2-rime--fcitx5-統合と免疫ゲート)
@@ -10,6 +11,34 @@
 [![AVX2 版](https://img.shields.io/badge/AVX2%20版-こちらへ-green.svg)](https://github.com/obhasashare2024-namo/thorium-avx2-rime)
 
 [English](README.md) | [繁體中文](README_zh.md) | [日本語](README_ja.md) | [Support Matrix](SUPPORT_MATRIX.md) | [技術引き継ぎ書](HANDOFF_M159.md)
+
+---
+
+## 🧬 ハイブリッドコンパイルアーキテクチャと系譜 (Hybrid Compilation Architecture)
+
+> [!IMPORTANT]
+> **ハイブリッドソースコードの系譜**：本プロジェクトは、**公式 Chromium 159**（`159.0.8137.0` 最新上流ツリー）と **Thorium 最新 15x**（`Alex313031/Thorium` の SIMD 最適化および機能パッチ群）を融合し、さらに独自開発の Linux RIME / Fcitx5 7層免疫ゲートおよび Adaptive Ozone プラットフォームを統合した**デュアルトラック ハイブリッドビルド版**です。
+
+```mermaid
+graph TD
+    A["公式 Chromium 上流ツリー (v159.0.8137.0)"] --> D["ハイブリッド ソースツリー (M159 AVX-512)"]
+    B["Thorium 最新 15x パッチ群 (AVX-512 SIMD / ThinLTO / Codecs / 紫テーマ)"] --> D
+    C["独自 C++ 強化パッチ (RIME 免疫ゲート / 自律 Ozone / ログイン保持)"] --> D
+    D --> E["GN ベクトル構成 (args_avx512.gn)"]
+    E --> F["Clang 19 + ThinLTO + 512ビット ZMM コンパイルエンジン"]
+    F --> G["ネイティブ バイナリおよびパッケージ (.deb / .tar.xz)"]
+```
+
+| 構成要素 | ソース / 上流 | 主な貢献と技術的実装詳細 |
+| :--- | :--- | :--- |
+| **ベース ブラウザ エンジン** | **公式 Chromium 159** (`159.0.8137.0`) | 最新の Chromium セキュリティ修正、V8 JavaScript JIT エンジン、WebAssembly 拡張、最新の Web 標準を完全享受。 |
+| **ベクトル & マルチメディア群** | **Thorium 最新 15x** (`Alex313031/Thorium`) | Skylake-AVX512 最適化フラグ、ThinLTO、全メディアコーデック（HEVC/Dolby Vision/AC3/VA-API）、公式 API キー、紫太極ブランドアセット。 |
+| **RIME / Fcitx5 免疫ゲート** | **独自パッチ Patch 0003** | `input_method_auralinux.cc` に 7 層の変換中文字遮断（`!composition_.text.empty()`）を注入し、未変換英字漏れを完全に排除。 |
+| **プロファイル隔離** | **独自パッチ Patch 0004** | プロファイルパスを `~/.config/thorium` にハードコードし、システム既定の Chromium との競合を完全に回避。 |
+| **セッション維持・抗ログアウト** | **独自パッチ Patch 0005** | DICE & DBSC トークンバインドを無効化し、Gaia Cookie Jar のリセットを遮断。再起動時の Google / YouTube 自動ログアウトを根本解決。 |
+| **OSCrypt Basic プロバイダ** | **独自パッチ Patch 0006** | `peanuts`（v10 キー）をデフォルトプロバイダとして設定し、D-Bus Secret Service / KWallet へのハード依存を排除。 |
+| **SQLite WAL チェックポイント** | **独自パッチ Patch 0007** | SIGTERM 受信時に `PRAGMA wal_checkpoint(TRUNCATE)` を強制実行し、セッションデータの破損を防止。 |
+| **自律 Ozone プラットフォーム** | **独自 Delegate ロジック** | 起動時に Wayland と X11 を動的検出。Wayland を優先しつつ X11 へ自動フォールバック。純粋な Wayland 環境でのクラッシュを防止。 |
 
 ---
 
@@ -58,12 +87,12 @@
 
 ---
 
-## インストールと起動
+## クイック スタート
 
 ### Debian / Ubuntu / Linux Mint
 ```bash
 sudo dpkg -i thorium-browser-stable_159.0.8137.0-1_amd64.deb
-sudo apt-get install -f # 依存関係の修復
+sudo apt-get install -f # 依存パッケージの自動修復
 thorium-browser
 ```
 
@@ -76,14 +105,14 @@ cd thorium-browser-159.0.8137.0-avx512-linux-x64
 
 ---
 
-## ハードウェア互換性
+## ハードウェア互換性ガイド
 
-* **対応 CPU (Intel)**: 第11世代 Core（Tiger Lake、Rocket Lake）、第10世代 Core Mobile（Ice Lake）、Core X シリーズ（Skylake-X、Cascade Lake-X）、Xeon Scalable（第1〜5世代）、Xeon W シリーズ。
-* **対応 CPU (AMD)**: Ryzen 7000 / 8000 / 9000 シリーズ（Zen 4、Zen 5）、EPYC 9004 / 8004 / 9005 シリーズ、Ryzen Threadripper 7000 シリーズ。
-* **非 AVX-512 CPU**: Intel Haswell〜Comet Lake または AMD Zen 1〜Zen 3 の場合は、[Thorium AVX2 版](https://github.com/obhasashare2024-namo/thorium-avx2-rime) をご使用ください。
+* **完全サポート（Intel）**：第11世代 Core（Tiger Lake、Rocket Lake、例：i7-11800H）、第10世代 Core モバイル（Ice Lake）、Core X シリーズ（Skylake-X、Cascade Lake-X）、Xeon Scalable（第1〜第5世代）、Xeon W シリーズ。
+* **完全サポート（AMD）**：Ryzen 7000 / 8000 / 9000 シリーズ（Zen 4、Zen 5）、EPYC 9004 / 8004 / 9005 シリーズ、Ryzen Threadripper 7000 シリーズ。
+* **非 AVX-512 プロセッサ環境**：Intel Haswell 〜 Comet Lake または AMD Zen 1 〜 Zen 3 の場合は、[Thorium AVX2 版](https://github.com/obhasashare2024-namo/thorium-avx2-rime) をご利用ください。
 
 ---
 
 ## ライセンス
 
-Thorium の変更点およびビルド スクリプトは BSD-3-Clause ライセンスで公開されています。Chromium は元の Chromium オープンソース ライセンスに準拠します。
+Thorium の改変コードおよびビルドスクリプトは BSD-3-Clause ライセンスの下で公開されています。Chromium の元のソースコードは Chromium オープンソース ライセンスに準拠します。
